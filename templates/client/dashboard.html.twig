@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client Dashboard{% endblock %}
+
+{% block body %}
+<h1 class="mb-4"><i class="bi bi-speedometer2"></i> Client Dashboard</h1>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-primary">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-calendar-check text-primary"></i> My Reservations</h5>
+                <h2 class="text-primary">{{ app.user.reservations|length }}</h2>
+                <a href="{{ path('app_reservation_index') }}" class="btn btn-sm btn-primary">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-success">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-star text-success"></i> My Reviews</h5>
+                <h2 class="text-success">0</h2>
+                <a href="{{ path('app_avis_index') }}" class="btn btn-sm btn-success">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm border-info">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-person text-info"></i> Profile</h5>
+                <p class="card-text">{{ app.user.nom }}</p>
+                <a href="{{ path('app_client_show', {'id': app.user.id}) }}" class="btn btn-sm btn-info">View Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Quick Actions</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <a href="{{ path('app_reservation_new') }}" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-plus-circle"></i> Create New Reservation
+                </a>
+            </div>
+            <div class="col-md-6 mb-3">
+                <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary btn-lg w-100">
+                    <i class="bi bi-list-ul"></i> View My Reservations
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,264 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}<i class="fa fa-tachometer-alt"></i> Admin Dashboard{% endblock %}
+
+{% block main %}
+<style>
+    .stat-card {
+        transition: transform 0.2s;
+        height: 100%;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .progress-bar-custom {
+        height: 8px;
+        border-radius: 4px;
+    }
+</style>
+
+<!-- Main Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm border-primary stat-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2"><i class="fa fa-users"></i> Total Users</h6>
+                        <h2 class="stat-number text-primary mb-0">{{ stats.total_users|default(0) }}</h2>
+                    </div>
+                    <div class="text-primary" style="font-size: 2.5rem; opacity: 0.3;">
+                        <i class="fa fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm border-success stat-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2"><i class="fa fa-address-card"></i> Clients</h6>
+                        <h2 class="stat-number text-success mb-0">{{ stats.total_clients|default(0) }}</h2>
+                    </div>
+                    <div class="text-success" style="font-size: 2.5rem; opacity: 0.3;">
+                        <i class="fa fa-address-card"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm border-info stat-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2"><i class="fa fa-tools"></i> Ouvriers</h6>
+                        <h2 class="stat-number text-info mb-0">{{ stats.total_ouvriers|default(0) }}</h2>
+                        <small class="text-muted">
+                            <span class="badge bg-success">{{ stats.ouvriers_disponibles|default(0) }} disponibles</span>
+                            <span class="badge bg-danger">{{ stats.ouvriers_indisponibles|default(0) }} indisponibles</span>
+                        </small>
+                    </div>
+                    <div class="text-info" style="font-size: 2.5rem; opacity: 0.3;">
+                        <i class="fa fa-tools"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm border-warning stat-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-2"><i class="fa fa-star"></i> Avis</h6>
+                        <h2 class="stat-number text-warning mb-0">{{ stats.total_avis|default(0) }}</h2>
+                        {% if stats.avg_rating > 0 %}
+                        <small class="text-muted">
+                            <i class="fa fa-star text-warning"></i> Note moyenne: {{ stats.avg_rating|number_format(2) }}/5
+                        </small>
+                        {% endif %}
+                    </div>
+                    <div class="text-warning" style="font-size: 2.5rem; opacity: 0.3;">
+                        <i class="fa fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Revenue and Reservations -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fa fa-money-bill-wave"></i> Revenus</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-success mb-1">{{ stats.total_revenue|number_format(2) }} TND</h3>
+                        <small class="text-muted">Revenu Total</small>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-info mb-1">{{ stats.avg_revenue|number_format(2) }} TND</h3>
+                        <small class="text-muted">Revenu Moyen</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fa fa-calendar-check"></i> Réservations - Statut</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-3">
+                        <h4 class="mb-1">{{ stats.total_reservations|default(0) }}</h4>
+                        <small class="text-muted">Total</small>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="text-warning mb-1">{{ stats.reservations_en_attente|default(0) }}</h4>
+                        <small class="text-muted">En Attente</small>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="text-primary mb-1">{{ stats.reservations_en_cours|default(0) }}</h4>
+                        <small class="text-muted">En Cours</small>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="text-success mb-1">{{ stats.reservations_terminees|default(0) }}</h4>
+                        <small class="text-muted">Terminées</small>
+                    </div>
+                </div>
+                {% if stats.total_reservations > 0 %}
+                <div class="mt-3">
+                    <div class="progress progress-bar-custom mb-1">
+                        <div class="progress-bar bg-warning" role="progressbar" 
+                             style="width: {{ (stats.reservations_en_attente / stats.total_reservations * 100)|round }}%"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" 
+                             style="width: {{ (stats.reservations_en_cours / stats.total_reservations * 100)|round }}%"></div>
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: {{ (stats.reservations_terminees / stats.total_reservations * 100)|round }}%"></div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Service Types and User Roles -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fa fa-list"></i> Types de Services</h5>
+            </div>
+            <div class="card-body">
+                {% for serviceType, count in stats.service_stats %}
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>{{ serviceType }}</span>
+                    <span class="badge bg-info">{{ count }}</span>
+                </div>
+                {% if stats.total_reservations > 0 %}
+                <div class="progress progress-bar-custom mb-3">
+                    <div class="progress-bar bg-info" role="progressbar" 
+                         style="width: {{ (count / stats.total_reservations * 100)|round }}%"></div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fa fa-user-tag"></i> Répartition des Rôles</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span><i class="fa fa-user text-primary"></i> ROLE_USER</span>
+                    <span class="badge bg-primary">{{ stats.role_counts.ROLE_USER|default(0) }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span><i class="fa fa-user-shield text-danger"></i> ROLE_ADMIN</span>
+                    <span class="badge bg-danger">{{ stats.role_counts.ROLE_ADMIN|default(0) }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span><i class="fa fa-tools text-info"></i> ROLE_OVR</span>
+                    <span class="badge bg-info">{{ stats.role_counts.ROLE_OVR|default(0) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assignments and Recent Reservations -->
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0"><i class="fa fa-user-check"></i> Assignations</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h3 class="text-success mb-1">{{ stats.reservations_with_ouvrier|default(0) }}</h3>
+                        <small class="text-muted">Avec Ouvrier</small>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-warning mb-1">{{ stats.reservations_without_ouvrier|default(0) }}</h3>
+                        <small class="text-muted">Sans Ouvrier</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="fa fa-clock"></i> Réservations Récentes</h5>
+            </div>
+            <div class="card-body">
+                {% if stats.recent_reservations|length > 0 %}
+                <div class="list-group list-group-flush">
+                    {% for reservation in stats.recent_reservations %}
+                    <div class="list-group-item px-0 py-2">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>{{ reservation.client.nom }}</strong>
+                                <br>
+                                <small class="text-muted">{{ reservation.typeService }}</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge 
+                                    {% if reservation.statut == 'En attente' %}bg-warning
+                                    {% elseif reservation.statut == 'En cours' %}bg-primary
+                                    {% else %}bg-success{% endif %}">
+                                    {{ reservation.statut }}
+                                </span>
+                                <br>
+                                <small class="text-muted">{{ reservation.date|date('d/m/Y') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">Aucune réservation récente</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

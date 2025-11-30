@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - CleanMyCar{% endblock %}
+
+{% block body %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded shadow">
+            <h1 class="display-4"><i class="bi bi-car-front"></i> Welcome to CleanMyCar</h1>
+            <p class="lead">Professional car cleaning service management system</p>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.3);">
+            <p>Book your car cleaning service, manage reservations, and track your service history all in one place.</p>
+            {% if not app.user %}
+                <div class="mt-4">
+                    <a class="btn btn-light btn-lg me-2" href="{{ path('client_login') }}" role="button">
+                        <i class="bi bi-box-arrow-in-right"></i> Client Login
+                    </a>
+                    <a class="btn btn-outline-light btn-lg" href="{{ path('admin_login') }}" role="button">
+                        <i class="bi bi-shield-lock"></i> Admin Login
+                    </a>
+                </div>
+            {% else %}
+                <div class="mt-4">
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <a class="btn btn-light btn-lg me-2" href="{{ path('app_admin_dashboard') }}" role="button">
+                            <i class="bi bi-speedometer2"></i> Admin Dashboard
+                        </a>
+                    {% else %}
+                        <a class="btn btn-light btn-lg me-2" href="{{ path('app_profile_index') }}" role="button">
+                            <i class="bi bi-speedometer2"></i> My Dashboard
+                        </a>
+                    {% endif %}
+                    <a class="btn btn-outline-light btn-lg" href="{{ path('app_reservation_new') }}" role="button">
+                        <i class="bi bi-calendar-plus"></i> Book Service
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-check text-primary" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">Easy Booking</h4>
+                <p class="text-muted">Schedule your car cleaning service in just a few clicks. Choose your preferred date and time.</p>
+                <a href="{{ path('app_reservation_new') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-tools text-success" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">Professional Service</h4>
+                <p class="text-muted">Our skilled workers provide top-quality car cleaning services in your area.</p>
+                <a href="{{ path('app_ouvrier_index') }}" class="btn btn-success">
+                    <i class="bi bi-eye"></i> View Workers
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-info">
+            <div class="card-body text-center">
+                <i class="bi bi-star text-info" style="font-size: 3rem;"></i>
+                <h4 class="mt-3">Rate & Review</h4>
+                <p class="text-muted">Share your experience and help us improve our services with your feedback.</p>
+                <a href="{{ path('app_avis_index') }}" class="btn btn-info">
+                    <i class="bi bi-star"></i> View Reviews
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if app.user %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-speedometer2"></i> Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if 'ROLE_ADMIN' in app.user.roles %}
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ path('app_client_index') }}" class="btn btn-primary w-100">
+                                    <i class="bi bi-people"></i> Manage Clients
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ path('app_ouvrier_index') }}" class="btn btn-success w-100">
+                                    <i class="bi bi-tools"></i> Manage Workers
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ path('app_reservation_index') }}" class="btn btn-info w-100">
+                                    <i class="bi bi-calendar-check"></i> Manage Reservations
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="{{ path('app_avis_index') }}" class="btn btn-warning w-100">
+                                    <i class="bi bi-star"></i> View Reviews
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ path('app_reservation_new') }}" class="btn btn-primary w-100">
+                                    <i class="bi bi-calendar-plus"></i> New Reservation
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ path('app_reservation_index') }}" class="btn btn-info w-100">
+                                    <i class="bi bi-list-ul"></i> My Reservations
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="{{ path('app_profile_index') }}" class="btn btn-secondary w-100">
+                                    <i class="bi bi-person"></i> My Profile
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+

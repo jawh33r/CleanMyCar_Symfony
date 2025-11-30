@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation Details{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-calendar-check"></i> Reservation Details</h1>
+    <div>
+        <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Reservation #{{ reservation.id }}</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th class="bg-light" style="width: 200px;">Id</th>
+                    <td>{{ reservation.id }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Date</th>
+                    <td>{{ reservation.date ? reservation.date|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Heure</th>
+                    <td>{{ reservation.heure ? reservation.heure|date('H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Type Service</th>
+                    <td>{{ reservation.typeService }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Adresse</th>
+                    <td>{{ reservation.adresse }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Statut</th>
+                    <td>
+                        {% if reservation.statut == 'En attente' %}
+                            <span class="badge bg-warning">{{ reservation.statut }}</span>
+                        {% elseif reservation.statut == 'Confirmée' %}
+                            <span class="badge bg-info">{{ reservation.statut }}</span>
+                        {% elseif reservation.statut == 'En cours' %}
+                            <span class="badge bg-primary">{{ reservation.statut }}</span>
+                        {% elseif reservation.statut == 'Terminée' %}
+                            <span class="badge bg-success">{{ reservation.statut }}</span>
+                        {% elseif reservation.statut == 'Annulée' %}
+                            <span class="badge bg-danger">{{ reservation.statut }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ reservation.statut }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% if reservation.montant %}
+                <tr>
+                    <th class="bg-light">Montant</th>
+                    <td><strong>{{ reservation.montant|number_format(2, ',', ' ') }} TND</strong></td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th class="bg-light">Client</th>
+                    <td>
+                        <strong>{{ reservation.client.nom }}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Ouvrier</th>
+                    <td>
+                        {% if reservation.ouvrierId %}
+                            <span class="badge bg-info">Ouvrier #{{ reservation.ouvrierId }}</span>
+                        {% else %}
+                            <span class="text-muted">Non assigné</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Avis</th>
+                    <td>
+                        {% if reservation.avis|length > 0 %}
+                            {% for avi in reservation.avis %}
+                                <div class="mb-2">
+                                    <strong>Note:</strong> {{ avi.note }}/5
+                                    <br>
+                                    <strong>Commentaire:</strong> {{ avi.commentaire }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted">Aucun avis</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

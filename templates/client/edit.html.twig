@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-pencil-square"></i> Edit Client</h1>
+    <div>
+        <a href="{{ path('app_client_show', {'id': client.id}) }}" class="btn btn-info">
+            <i class="bi bi-eye"></i> Show
+        </a>
+        <a href="{{ path('app_client_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Edit Client #{{ client.id }}</h4>
+    </div>
+    <div class="card-body">
+        {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_label(form.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.email, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.motDePasse, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.motDePasse, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.motDePasse) }}
+            <small class="form-text text-muted">Leave blank to keep current password</small>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Save Changes
+            </button>
+            <a href="{{ path('app_client_index') }}" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+

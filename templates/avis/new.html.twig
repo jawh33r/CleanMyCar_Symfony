@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Laisser un Avis - CleanMyCar{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-star-fill"></i> Laisser un Avis</h1>
+    <a href="{{ path('app_profile_index') }}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour au profil
+    </a>
+</div>
+
+{% if reservations|length == 0 %}
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Vous n'avez aucune réservation terminée avec un ouvrier assigné pour laisser un avis.
+        <br>
+        <a href="{{ path('app_profile_index') }}" class="btn btn-primary mt-2">Retour au profil</a>
+    </div>
+{% else %}
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-star"></i> Évaluez l'Ouvrier</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-muted mb-4">
+                <i class="bi bi-info-circle"></i> Sélectionnez une réservation terminée et évaluez l'ouvrier qui a travaillé sur votre voiture.
+            </p>
+            
+            {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_label(form.reservation, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.reservation, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.reservation) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.note, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.note, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.note) }}
+                <small class="form-text text-muted">Évaluez la qualité du service de 1 à 5 étoiles</small>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.commentaire, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.commentaire, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                {{ form_errors(form.commentaire) }}
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Envoyer l'avis
+                </button>
+                <a href="{{ path('app_profile_index') }}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Annuler
+                </a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Services - CleanMyCar{% endblock %}
+
+{% block body %}
+<div class="mb-5">
+    <h1 class="text-center mb-4"><i class="bi bi-tools"></i> Nos Services</h1>
+    <p class="lead text-center mb-5">
+        Chez CleanMyCar, nous offrons des services de lavage de voiture professionnels et adaptés à vos besoins :
+    </p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-primary">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="bi bi-car-front text-primary" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="card-title text-center">Lavage extérieur à domicile</h3>
+                <p class="card-text">
+                    Nous nous déplaçons chez vous pour un lavage extérieur complet, incluant le lavage de la carrosserie, 
+                    des jantes, des vitres, et le traitement anti-pluie. Idéal pour garder votre voiture éclatante sans bouger de chez vous.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-success">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="bi bi-house-door text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="card-title text-center">Lavage intérieur complet</h3>
+                <p class="card-text">
+                    Ce service inclut l'aspiration complète de l'habitacle, le nettoyage des sièges (en tissu ou cuir), 
+                    tapis, moquettes, tableau de bord, vitres intérieures, ainsi que la désinfection des surfaces de contact.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-info">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="bi bi-sliders text-info" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="card-title text-center">Formules personnalisées</h3>
+                <p class="card-text">
+                    Créez votre propre formule de lavage selon vos besoins : intérieur, extérieur, traitements spécifiques 
+                    (anti-odeurs, rénovation plastique, etc.). Parfait pour un service sur mesure et flexible.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-warning">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="bi bi-flower1 text-warning" style="font-size: 3rem;"></i>
+                </div>
+                <h3 class="card-title text-center">Nettoyage écologique</h3>
+                <p class="card-text">
+                    Nous utilisons des produits respectueux de l'environnement et des techniques sans eau pour un lavage 
+                    responsable, efficace, et respectueux de votre véhicule et de la planète.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <a href="{{ path('app_reservation_new') }}" class="btn btn-primary btn-lg">
+        <i class="bi bi-calendar-plus"></i> Réserver un service
+    </a>
+</div>
+{% endblock %}
+
+

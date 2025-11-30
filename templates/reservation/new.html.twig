@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Réservation - CleanMyCar{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-calendar-plus"></i> Nouvelle Réservation</h1>
+    <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Informations de réservation</h4>
+    </div>
+    <div class="card-body">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.date) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.heure, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.heure, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.heure) }}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.typeService, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.typeService, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.typeService) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.adresse, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Créer la réservation
+            </button>
+            <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Annuler
+            </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

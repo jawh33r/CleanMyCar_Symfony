@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis Details{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-star"></i> Avis Details</h1>
+    <div>
+        <a href="{{ path('app_avis_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+        <a href="{{ path('app_avis_edit', {'id': avi.id}) }}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Avis #{{ avi.id }}</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th class="bg-light" style="width: 200px;">Id</th>
+                    <td>{{ avi.id }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Note</th>
+                    <td>
+                        {% for i in 1..5 %}
+                            {% if i <= avi.note %}
+                                <i class="bi bi-star-fill text-warning fs-4"></i>
+                            {% else %}
+                                <i class="bi bi-star text-secondary fs-4"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="ms-2 fs-5">({{ avi.note }}/5)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Commentaire</th>
+                    <td>{{ avi.commentaire }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-light">Reservation</th>
+                    <td>
+                        <a href="{{ path('app_reservation_show', {'id': avi.reservation.id}) }}" class="btn btn-sm btn-info">
+                            <i class="bi bi-calendar-check"></i> View Reservation #{{ avi.reservation.id }}
+                        </a>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                Date: {{ avi.reservation.date ? avi.reservation.date|date('Y-m-d') : '' }}<br>
+                                Client: {{ avi.reservation.client.nom }}<br>
+                                Type: {{ avi.reservation.typeService }}
+                            </small>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+

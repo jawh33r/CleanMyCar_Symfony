@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-star"></i> Avis</h1>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if avisWithOuvriers|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Reservation</th>
+                            <th>Ouvrier</th>
+                            <th>Note</th>
+                            <th>Commentaire</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in avisWithOuvriers %}
+                            {% set avi = item.avis %}
+                            {% set ouvrier = item.ouvrier %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app_reservation_show', {'id': avi.reservation.id}) }}">
+                                        Reservation #{{ avi.reservation.id }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if ouvrier %}
+                                        <span class="badge bg-info">
+                                            <i class="bi bi-tools"></i> {{ ouvrier.nom }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% for i in 1..5 %}
+                                        {% if i <= avi.note %}
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        {% else %}
+                                            <i class="bi bi-star text-secondary"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="ms-2">({{ avi.note }}/5)</span>
+                                </td>
+                                <td>
+                                    {% if avi.commentaire|length > 50 %}
+                                        {{ avi.commentaire|slice(0, 50) }}...
+                                    {% else %}
+                                        {{ avi.commentaire }}
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{{ path('app_avis_show', {'id': avi.id}) }}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i> Show
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> No avis found. <a href="{{ path('app_avis_new') }}">Create the first one</a>.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - CleanMyCar{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white text-center">
+                <h3 class="mb-0"><i class="bi bi-person-plus"></i> Inscription</h3>
+            </div>
+            <div class="card-body">
+                {{ form_start(registrationForm) }}
+                <div class="mb-3">
+                    {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.email) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.nom, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.nom) }}
+                    {{ form_errors(registrationForm.nom) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword.first, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.first) }}
+                    {{ form_errors(registrationForm.plainPassword.first) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword.second, null, {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.second) }}
+                    {{ form_errors(registrationForm.plainPassword.second) }}
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-person-plus"></i> S'inscrire
+                    </button>
+                </div>
+                {{ form_end(registrationForm) }}
+
+                <hr>
+                <div class="text-center">
+                    <p class="mb-0">Déjà un compte?</p>
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

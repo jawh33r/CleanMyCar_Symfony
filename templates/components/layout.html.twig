@@ -1,0 +1,15 @@
+{# Layout component for consistent page structure #}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{% block card_title %}{% endblock %}</h4>
+            </div>
+            <div class="card-body">
+                {% block card_body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+

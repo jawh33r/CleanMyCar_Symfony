@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Reservation{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-pencil-square"></i> Edit Reservation</h1>
+    <div>
+        <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-info">
+            <i class="bi bi-eye"></i> Show
+        </a>
+        <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to list
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Edit Reservation #{{ reservation.id }}</h4>
+    </div>
+    <div class="card-body">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.date) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.heure, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.heure, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.heure) }}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.typeService, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.typeService, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.typeService) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.adresse, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.statut, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.statut) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.montant, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.montant, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.montant) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.client, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.client, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.client) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_label(form.ouvrier, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.ouvrier, {'attr': {'class': 'form-select'}}) }}
+                {{ form_errors(form.ouvrier) }}
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-circle"></i> Save Changes
+            </button>
+            <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+

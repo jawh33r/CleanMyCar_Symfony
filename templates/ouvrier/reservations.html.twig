@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Réservations - Ouvrier{% endblock %}
+
+{% block body %}
+<div class="mb-4">
+    <h1><i class="bi bi-calendar-check"></i> Gestion des Réservations</h1>
+    <p class="text-muted">Ouvrier: <strong>{{ ouvrier.nom }}</strong>{% if ouvrier.zoneService %} - Zone: {{ ouvrier.zoneService }}{% endif %}</p>
+</div>
+
+<!-- My Reservations Section -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0"><i class="bi bi-list-check"></i> Mes Réservations Assignées</h4>
+    </div>
+    <div class="card-body">
+        {% if myReservations|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Service</th>
+                            <th>Client</th>
+                            <th>Adresse</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in myReservations %}
+                            <tr>
+                                <td>#{{ reservation.id }}</td>
+                                <td>{{ reservation.date ? reservation.date|date('d/m/Y') : '' }}</td>
+                                <td>{{ reservation.heure ? reservation.heure|date('H:i') : '' }}</td>
+                                <td>{{ reservation.typeService }}</td>
+                                <td>{{ reservation.client.nom }}</td>
+                                <td>
+                                    {% if reservation.adresse|length > 30 %}
+                                        {{ reservation.adresse|slice(0, 30) }}...
+                                    {% else %}
+                                        {{ reservation.adresse }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.montant %}
+                                        <strong>{{ reservation.montant|number_format(2, ',', ' ') }} TND</strong>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.statut == 'En attente' %}
+                                        <span class="badge bg-warning">{{ reservation.statut }}</span>
+                                    {% elseif reservation.statut == 'En cours' %}
+                                        <span class="badge bg-primary">{{ reservation.statut }}</span>
+                                    {% elseif reservation.statut == 'Terminée' %}
+                                        <span class="badge bg-success">{{ reservation.statut }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ reservation.statut }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if reservation.statut == 'En attente' %}
+                                        <form method="post" action="{{ path('app_ouvrier_reservations_start', {'id': reservation.id}) }}" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('start' ~ reservation.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-play-circle"></i> Démarrer
+                                            </button>
+                                        </form>
+                                    {% elseif reservation.statut == 'En cours' %}
+                                        <form method="post" action="{{ path('app_ouvrier_reservations_finish', {'id': reservation.id}) }}" class="d-inline">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ reservation.id) }}">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check-circle"></i> Terminer
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i> Voir
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Aucune réservation assignée pour le moment.
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- All Available Reservations Section -->
+<div class="card shadow-sm">
+    <div class="card-header bg-info text-white">
+        <h4 class="mb-0"><i class="bi bi-calendar-plus"></i> Toutes les Réservations Disponibles</h4>
+    </div>
+    <div class="card-body">
+        {% if allReservations|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Heure</th>
+                            <th>Service</th>
+                            <th>Client</th>
+                            <th>Adresse</th>
+                            <th>Montant</th>
+                            <th>Statut</th>
+                            <th>Ouvrier</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reservation in allReservations %}
+                            <tr>
+                                <td>#{{ reservation.id }}</td>
+                                <td>{{ reservation.date ? reservation.date|date('d/m/Y') : '' }}</td>
+                                <td>{{ reservation.heure ? reservation.heure|date('H:i') : '' }}</td>
+                                <td>{{ reservation.typeService }}</td>
+                                <td>{{ reservation.client.nom }}</td>
+                                <td>
+                                    {% if reservation.adresse|length > 25 %}
+                                        {{ reservation.adresse|slice(0, 25) }}...
+                                    {% else %}
+                                        {{ reservation.adresse }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.montant %}
+                                        <strong>{{ reservation.montant|number_format(2, ',', ' ') }} TND</strong>
+                                    {% else %}
+                                        <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.statut == 'En attente' %}
+                                        <span class="badge bg-warning">{{ reservation.statut }}</span>
+                                    {% elseif reservation.statut == 'En cours' %}
+                                        <span class="badge bg-primary">{{ reservation.statut }}</span>
+                                    {% elseif reservation.statut == 'Terminée' %}
+                                        <span class="badge bg-success">{{ reservation.statut }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ reservation.statut }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if reservation.ouvrierId %}
+                                        <span class="badge bg-info">Assigné</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Non assigné</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if reservation.ouvrierId == null and reservation.statut == 'En attente' %}
+                                        <a href="{{ path('app_ouvrier_reservations_take', {'id': reservation.id}) }}" class="btn btn-sm btn-success">
+                                            <i class="bi bi-hand-thumbs-up"></i> Prendre
+                                        </a>
+                                    {% elseif reservation.ouvrierId == ouvrier.id %}
+                                        <span class="badge bg-info">Votre réservation</span>
+                                    {% else %}
+                                        <span class="text-muted">Déjà assignée</span>
+                                    {% endif %}
+                                    <a href="{{ path('app_reservation_show', {'id': reservation.id}) }}" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> Aucune réservation disponible.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
